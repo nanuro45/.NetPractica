@@ -52,7 +52,7 @@ namespace ClasesInterfaces{
                 try{
                     bool cc = true;
                     while(!sr.EndOfStream && cc){
-                        string cadena = sr.ReadLine();
+                        string? cadena = sr.ReadLine();
                         string[] vElementos = new string[6];
                         while(cadena != null){
                             vElementos= cadena.Split("|");
@@ -112,7 +112,7 @@ namespace ClasesInterfaces{
             using (StreamReader sr = new StreamReader("Cliente.txt")){
                 try{
                     while(!sr.EndOfStream){
-                        string cadena = sr.ReadLine();
+                        string? cadena = sr.ReadLine();
                         string[] elementos = new string [6];
                         while(cadena != null){
                             elementos = cadena.Split("|");
