@@ -4,7 +4,6 @@ using Biblioteca;
 using System.Collections.Generic;
 using System.IO;
 
-/////REVISAR QUE NO HAYA CLIENTES////////
 
 namespace ClasesInterfaces{
     public class RepositorioEmpleadoArchTexto : IRepositorioEmpleado
@@ -17,7 +16,7 @@ namespace ClasesInterfaces{
         }
 
 
-        void IRepositorioEmpleado.EliminarEmpleado(int DNI)
+        public void EliminarEmpleado(int Dni)
         {
             StreamWriter sw = File.CreateText("temporal.txt");
             StreamReader sr = new StreamReader("Empleado.txt");
@@ -30,7 +29,7 @@ namespace ClasesInterfaces{
                     campos = linea.Split('|');
                 }
                 for(int i=0;i < campos.Length;i++){
-                    if(Int32.Parse(campos[0]) == DNI){
+                    if(Int32.Parse(campos[0]) == Dni){
                         ok=true;; 
                     }
                     else{
@@ -48,7 +47,7 @@ namespace ClasesInterfaces{
         }
 
 
-        Empleado IRepositorioEmpleado.GetEmpleado(int DNI)
+        public Empleado GetEmpleado(int DNI)
         {
             Empleado c = new Empleado();
             using(StreamReader sr = new StreamReader("Empleado.txt")){
@@ -109,7 +108,7 @@ namespace ClasesInterfaces{
         }
     }
 
-        List<Empleado> IRepositorioEmpleado.GetEmpleados()
+        public List<Empleado> GetEmpleados()
         {
            List<Empleado>lista = new List<Empleado>();
             StreamReader sr = new StreamReader("Empleados.txt");
