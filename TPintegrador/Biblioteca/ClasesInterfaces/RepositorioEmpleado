@@ -2,9 +2,135 @@ using System;
 using Interfaces;
 using Biblioteca;
 using System.Collections.Generic;
+using System.IO;
+
 
 namespace ClasesInterfaces{
-    public class RepositorioEmpleadoArchTexto{
-        
+    public class RepositorioEmpleadoArchTexto : IRepositorioEmpleado
+    {
+         void IRepositorioEmpleado.AgregarEmpleado(Biblioteca.Empleado empleado)
+        {
+            using (StreamWriter sw = new StreamWriter("Cliente.txt")){
+                sw.WriteLine($"{empleado.documento}|{empleado.nombre}|{empleado.apellido}|{empleado.direccion}|{empleado.fecha_nacimiento}|{empleado.numero_legajo}|");
+            }
+        }
+
+
+        void IRepositorioEmpleado.EliminarEmpleado(int DNI)
+        {
+            StreamWriter sw = File.CreateText("temporal.txt");
+            StreamReader sr = new StreamReader("Empleado.txt");
+            string linea;
+            string[] campos = new string[5];
+            bool ok=false;
+            while(!sr.EndOfStream){
+                linea = sr.ReadLine();
+                while(linea != null){
+                    campos = linea.Split('|');
+                }
+                for(int i=0;i < campos.Length;i++){
+                    if(Int32.Parse(campos[0]) == DNI){
+                        ok=true;; 
+                    }
+                    else{
+                        sw.WriteLine(linea);
+                    }
+                }
+            }
+            if(ok == false){
+                Console.WriteLine("El dni no esta en el archivo");
+            }
+            sw.Close();
+            sr.Close();
+            File.Delete("Empleado.txt");
+            File.Move("temporal.txt","Empleado.txt");
+        }
+
+
+        Empleado IRepositorioEmpleado.GetEmpleado(int DNI)
+        {
+            Empleado c = new Empleado();
+            using(StreamReader sr = new StreamReader("Empleado.txt")){
+                try{
+                    bool cc = true;
+                    while(!sr.EndOfStream && cc){
+                        string cadena = sr.ReadLine();
+                        string[] vElementos = new string[6];
+                        while(cadena != null){
+                            vElementos= cadena.Split("|");
+                        }
+                        if(Int32.Parse(vElementos[0]) == DNI){
+                            c.documento=Int32.Parse(vElementos[0]);
+                            c.nombre=vElementos[1];
+                            c.apellido=vElementos[2];
+                            c.direccion=vElementos[3];
+                            c.fecha_nacimiento=DateTime.Parse(vElementos[4]);
+                            c.numero_legajo=Int32.Parse(vElementos[5]);
+                            cc = true;
+                        }
+                    }
+                    if(cc){
+                        return c;
+                    }
+                    else{
+                        return null;
+                    }
+                }  
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                return c;
+            }
+        }
+
+        public void ModificarEmpleado(Empleado empleado)
+        {
+            using (StreamReader sr = new StreamReader("Empleado.txt")){
+                try{
+                    while(!sr.EndOfStream){
+                        string cadena = sr.ReadLine();
+                        string[] elementos = new string [6];
+                        while(cadena != null){
+                            elementos = cadena.Split("|");
+                        } 
+                        if(empleado.documento == Int32.Parse(elementos[0])){
+                            using(StreamWriter sw = new StreamWriter("Cliente.txt")){
+                                sw.WriteLine($"{empleado.documento}|{empleado.nombre}|{empleado.apellido}|{empleado.direccion}|{empleado.fecha_nacimiento}|{empleado.numero_legajo}|");
+                            }
+                        }
+                    }
+                }
+                catch(Exception e){
+                    Console.WriteLine(e.Message);
+                }
+        }
+    }
+
+        List<Empleado> IRepositorioEmpleado.GetEmpleados()
+        {
+           List<Empleado>lista = new List<Empleado>();
+            StreamReader sr = new StreamReader("Empleados.txt");
+            Empleado empleado = new Empleado();
+            string linea;
+            string[] campos = new string[5];
+            while(!sr.EndOfStream){
+                linea = sr.ReadLine();
+                while(linea != null){
+                    campos = linea.Split('|');
+                }  
+                empleado.documento=Int32.Parse(campos[0]);
+                empleado.nombre=campos[1];
+                empleado.apellido=campos[2];
+                empleado.direccion=campos[3];
+                empleado.fecha_nacimiento=DateTime.Parse(campos[4]);
+                empleado.numero_legajo=Int32.Parse(campos[5]);
+                lista.Add(empleado);
+
+            }
+            sr.Close();
+            return lista;
+        }
     }
 }
