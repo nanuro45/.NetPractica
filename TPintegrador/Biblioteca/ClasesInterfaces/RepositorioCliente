@@ -17,25 +17,32 @@ namespace ClasesInterfaces{
 
         public void EliminarCliente(int Dni)
         {
-            using (StreamReader sr = new StreamReader("Cliente.txt")){
-                try{
-                    while(!sr.EndOfStream){
-                        string cadena = sr.ReadLine();
-                        string[] elementos = new string [6];
-                        while(cadena != null){
-                            elementos = cadena.Split("|");
-                        }
-                        if(Dni == Int32.Parse(elementos[0])){
-                           using(StreamWriter sw = new StreamWriter("Cliente.txt")){
-                              sw.WriteLine("----"); // verificar este using primer ejemplo. SOLO HACE BAJA LOGICA
-                           } 
-                        }
+            StreamWriter sw = File.CreateText("temporal.txt");
+            StreamReader sr = new StreamReader("Clientes.txt");
+            string? linea;
+            string[] campos = new string[5];
+            bool ok=false;
+            while(!sr.EndOfStream){
+                linea = sr.ReadLine();
+                while(linea != null){
+                    campos = linea.Split('|');
+                }
+                for(int i=0;i < campos.Length;i++){
+                    if(Int32.Parse(campos[0]) == Dni){
+                        ok=true;; 
+                    }
+                    else{
+                        sw.WriteLine(linea);
                     }
                 }
-                catch(Exception e){
-                    Console.WriteLine(e.Message);
-                }
             }
+            if(ok == false){
+                Console.WriteLine("El dni no esta en el archivo");
+            }
+            sw.Close();
+            sr.Close();
+            File.Delete("Clientes.txt");
+            File.Move("temporal.txt","Clientes.txt");
         }
 
         public Cliente GetCliente(int DNI)
@@ -76,9 +83,28 @@ namespace ClasesInterfaces{
             }
         }
 
-        public List<Cliente> GetClientes()
-        {
-            throw new NotImplementedException();
+        public List<Cliente>GetClientes(){
+            List<Cliente>lista = new List<Cliente>();
+            StreamReader sr = new StreamReader("Clientes.txt");
+            Cliente cliente = new Cliente();
+            string? linea;
+            string[] campos = new string[5];
+            while(!sr.EndOfStream){
+                linea = sr.ReadLine();
+                while(linea != null){
+                    campos = linea.Split('|');
+                }  
+                cliente.documento=Int32.Parse(campos[0]);
+                cliente.nombre=campos[1];
+                cliente.apellido=campos[2];
+                cliente.direccion=campos[3];
+                cliente.fecha_nacimiento=DateTime.Parse(campos[4]);
+                cliente.fecha_compra=DateTime.Parse(campos[5]);
+                lista.Add(cliente);
+
+            }
+            sr.Close();
+            return lista;
         }
 
         public void ModificarCliente(Cliente cliente)
