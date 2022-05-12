@@ -1,10 +1,10 @@
 namespace Biblioteca{
 
-    class ListaDeEmpleadosUseCases:RepositorioEmpleadoArchTexto{
+    public class ListaDeEmpleadosUseCases{
+        RepositorioEmpleadoArchTexto re = new RepositorioEmpleadoArchTexto();
 
-
-        List<Empleado> Ejecutar(){
-            return GetEmpleados();
+        public List<Empleado> Ejecutar(){
+            return re.GetEmpleados();
         }
     }
 }
