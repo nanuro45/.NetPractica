@@ -13,6 +13,10 @@ namespace Biblioteca{
             this.fecha_compra = fc;
         }
         public Cliente(){}
+
+        public override string ToString(){
+            return apellido+", "+nombre+"("+documento+")"+" Dir:calle "+direccion+" F.nac: "+fecha_nacimiento+" Última compra: "+fecha_compra+" [CLIENTE]";
+        }
         
     }
 }
