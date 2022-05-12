@@ -1,11 +1,10 @@
 namespace Biblioteca{
-    class ListaDeClientesUseCases:RepositorioClienteArchTexto{
+    public class ListaDeClientesUseCases{
 
-        List<Cliente> Ejecutar(){
-            return GetClientes();
+        RepositorioClienteArchTexto rc= new RepositorioClienteArchTexto();
+
+        public List<Cliente> Ejecutar(){
+            return rc.GetClientes();
         }
-
-
-
     }
 }
