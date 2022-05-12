@@ -1,19 +1,18 @@
 namespace Biblioteca{
 
-    class EliminarClienteUseCases:RepositorioClienteArchTexto{
+    public class EliminarClienteUseCases{
 
-
-        void Ejecutar(int dni){
+        RepositorioClienteArchTexto rc = new RepositorioClienteArchTexto();
+        public void Ejecutar(int dni){
             try{
-                if(GetCliente(dni)!= null){
-                    EliminarCliente(dni);
+                if(rc.GetCliente(dni)!= null){
+                    rc.EliminarCliente(dni);
                 }
             }   
             catch(Exception e){
                     Console.WriteLine(e.Message);
             }
         }
-
 
     }
 
