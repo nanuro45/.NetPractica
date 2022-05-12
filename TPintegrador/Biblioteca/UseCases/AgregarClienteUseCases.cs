@@ -1,18 +1,20 @@
 namespace Biblioteca{
-    class AgregarClienteUseCase:RepositorioClienteArchTexto{
-
-        void Ejecutar(Cliente cliente){
+    public class AgregarClienteUseCase{
+        RepositorioClienteArchTexto rc = new RepositorioClienteArchTexto();
+        public void Ejecutar(Cliente cliente){
             try{
-                if(GetCliente(cliente.documento)!= null){
-                    AgregarCliente(cliente);
+                if(rc.GetCliente(cliente.documento) == null){
+                    rc.AgregarCliente(cliente);
+                    Console.WriteLine("***********  Cliente Agregado Correctamente  ***********");
                 }
-            }      
+                else{
+                    throw new Exception("Cliente ya ingresado");
+                }
+            }     
             catch(Exception e){
                     Console.WriteLine(e.Message);
             }
         }
-
-
 
 
     }
