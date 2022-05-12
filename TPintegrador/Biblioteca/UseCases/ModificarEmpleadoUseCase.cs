@@ -1,13 +1,15 @@
-
-using System;
-using ClasesInterfaces;
-
 namespace Biblioteca{
-    public class ModificarEmpleadoUseCase: RepositorioEmpleadoArchTexto{
+    public class ModificarEmpleadoUseCase{
+
+        RepositorioEmpleadoArchTexto re= new RepositorioEmpleadoArchTexto();
         public void Ejecutar(Empleado empleado){
         try {
-            if(GetEmpleado(empleado.documento) != null){
-                ModificarEmpleado(empleado);
+            if(re.GetEmpleado(empleado.documento) != null){
+                re.ModificarEmpleado(empleado);
+                Console.WriteLine("*****Empleado modificado exitosamente *****");
+            }
+            else{
+                throw new Exception("Empleado no encontrado en el archivo");
             }
         }
         catch(Exception e){
