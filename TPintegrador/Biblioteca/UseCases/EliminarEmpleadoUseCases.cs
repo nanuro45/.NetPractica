@@ -1,10 +1,12 @@
 namespace Biblioteca{
 
-    class EliminarEmpleadoUseCases:RepositorioEmpleadoArchTexto{
-        void Ejecutar(int dni){
+    public class EliminarEmpleadoUseCases{
+
+        RepositorioEmpleadoArchTexto re = new RepositorioEmpleadoArchTexto();
+        public void Ejecutar(int dni){
             try{
-                if(GetEmpleado(dni)!= null){
-                    EliminarEmpleado(dni);
+                if(re.GetEmpleado(dni)!= null){
+                    re.EliminarEmpleado(dni);
                 }
             }   
             catch(Exception e){
