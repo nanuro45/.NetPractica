@@ -1,11 +1,14 @@
 namespace Biblioteca{
-
-    class AgregarEmpleadoUseCases:RepositorioEmpleadoArchTexto{
-
-        void Ejecutar(Empleado empleado){
+    public class AgregarEmpleadoUseCases{
+        RepositorioEmpleadoArchTexto re = new RepositorioEmpleadoArchTexto();
+        public void Ejecutar(Empleado empleado){
             try{
-                if(GetEmpleado(empleado.documento)!= null){
-                    AgregarEmpleado(empleado);
+                if(re.GetEmpleado(empleado.documento)!= null){
+                    re.AgregarEmpleado(empleado);
+                    Console.WriteLine("***********  Empleado Agregado Correctamente  ***********");
+                }
+                else{
+                    throw new Exception("Empleado ya ingresado");
                 }
             }      
             catch(Exception e){
