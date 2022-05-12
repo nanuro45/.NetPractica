@@ -1,12 +1,15 @@
-using System;
-using ClasesInterfaces;
-
 namespace Biblioteca{
-    public class ModificarClienteUseCase: RepositorioClienteArchTexto{
+    public class ModificarClienteUseCase{
+
+        RepositorioClienteArchTexto rc = new RepositorioClienteArchTexto();
         public void Ejecutar(Cliente cliente){
         try {
-            if(GetCliente(cliente.documento) != null){
-                ModificarCliente(cliente);
+            if(rc.GetCliente(cliente.documento) != null){
+                rc.ModificarCliente(cliente);
+                Console.WriteLine("*****Cliente modificado exitosamente *****");
+            }
+            else{
+                throw new Exception("Cliente no encontrado en el archivo");
             }
         }
         catch(Exception e){
