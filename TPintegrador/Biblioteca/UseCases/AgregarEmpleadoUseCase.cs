@@ -3,7 +3,7 @@ namespace Biblioteca{
         RepositorioEmpleadoArchTexto re = new RepositorioEmpleadoArchTexto();
         public void Ejecutar(Empleado empleado){
             try{
-                if(re.GetEmpleado(empleado.documento)!= null){
+                if(re.GetEmpleado(empleado.documento)== null){
                     re.AgregarEmpleado(empleado);
                     Console.WriteLine("***********  Empleado Agregado Correctamente  ***********");
                 }
